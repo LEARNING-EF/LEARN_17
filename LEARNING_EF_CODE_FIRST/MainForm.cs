@@ -369,6 +369,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 				// صورت مساله
 				// من تمام کشورهايی را می خواهم که در لااقل نام يکی از استان های آن حرف {بی} وجود داشته باشد
+				// لااقل = Any
 
 
 
@@ -546,16 +547,14 @@ namespace LEARNING_EF_CODE_FIRST
 
 				var result = data.ToList();
 
-				// varResult معادل DatabaseContext.Countries.Local
+				// result معادل DatabaseContext.Countries.Local
 				// **************************************************
 
 				// **************************************************
 				string search1 = "   Ali       Reza  Iran Carpet   Ali         ";
 
-				search1 = search1.Trim();
-
 				string[] keywords1 =
-					{ "Ali", "Reza", "Iran", "Carpet", "Ali" }; // یه جوری
+					{ "Ali", "Reza", "Iran", "Carpet" }; // یه جوری
 
 				var dataTemp1 =
 					databaseContext.Countries
@@ -585,57 +584,23 @@ namespace LEARNING_EF_CODE_FIRST
 
 				search2 = search2.Trim();
 
+				//search2 = "Ali       Reza  Iran Carpet   Ali";
+
 				while (search2.Contains("  "))
 				{
 					search2 =
 						search2.Replace("  ", " ");
 				}
 
-				string[] keywords2 =
-					{ "Ali", "Reza", "Iran", "Carpet", "Ali" }; // یه جوری
-
-				var dataTemp2 =
-					databaseContext.Countries
-					.AsQueryable();
-
-				foreach (var keyword in keywords2)
-				{
-					dataTemp2 =
-						dataTemp2
-						.Where(current => current.Name.Contains(keyword))
-						;
-				}
-
-				dataTemp2 =
-					dataTemp2
-					.OrderBy(current => current.Code)
-					;
-
-				var dataResult2 =
-					dataTemp2
-					.ToList()
-					;
-				// **************************************************
-
-				// **************************************************
-				string search = "   Ali       Reza  Iran Carpet   Ali         ";
-
-				search =
-					search.Trim();
-
-				while (search.Contains("  "))
-				{
-					search =
-						search.Replace("  ", " ");
-				}
-
-				//search = "Ali Reza Iran Carpet Ali";
+				//search2 = "Ali Reza Iran Carpet Ali";
 
 				//string[] keywords =
-				//	search.Split(' ');
+				//	search2.Split(' ');
+
+				//keywords = { "Ali", "Reza", "Iran", "Carpet", "Ali" }
 
 				var keywords =
-					search.Split(' ').Distinct<string>();
+					search2.Split(' ').Distinct<string>();
 
 				//keywords = { "Ali", "Reza", "Iran", "Carpet" };
 
@@ -693,24 +658,24 @@ namespace LEARNING_EF_CODE_FIRST
 				// روش سوم
 				var someData0200 =
 					from Country in DatabaseContext.Countries
-					select (Country)
+					select Country
 					;
 				// **************************************************
 
 				// **************************************************
 				var someData0300 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
-					select (Country)
+					where Country.Name.Contains("ايران")
+					select Country
 					;
 				// **************************************************
 
 				// **************************************************
 				var someData0400 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
+					where Country.Name.Contains("ايران")
 					orderby Country.Name
-					select (Country)
+					select Country
 					;
 
 				foreach (Models.Country currentCountry in someData0400)
@@ -724,9 +689,9 @@ namespace LEARNING_EF_CODE_FIRST
 				// (A)
 				var someData0500 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
+					where Country.Name.Contains("ايران")
 					orderby Country.Name
-					select (Country.Name)
+					select Country.Name
 					;
 
 				// Select Name From Countries
@@ -752,9 +717,9 @@ namespace LEARNING_EF_CODE_FIRST
 				// (B)
 				var someData0600 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
+					where Country.Name.Contains("ايران")
 					orderby Country.Name
-					select (new { Country.Name })
+					select new { Country.Name }
 					;
 
 				// Note: Wrong Usage!
@@ -772,9 +737,9 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 				var someData0700 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
+					where Country.Name.Contains("ايران")
 					orderby Country.Name
-					select (new { Name = Country.Name })
+					select new { Name = Country.Name }
 					;
 
 				foreach (var currentPartialCountry in someData0700)
@@ -787,9 +752,9 @@ namespace LEARNING_EF_CODE_FIRST
 				// (C)
 				var someData0800 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
-					orderby (Country.Name)
-					select (new { Baghali = Country.Name })
+					where Country.Name.Contains("ايران")
+					orderby Country.Name
+					select new { Baghali = Country.Name }
 					;
 
 				// Note: Wrong Usage!
@@ -813,8 +778,8 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 				var someData0900 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
-					orderby (Country.Name)
+					where Country.Name.Contains("ايران")
+					orderby Country.Name
 					select new { Size = Country.Population, Country.Name }
 					;
 
@@ -825,15 +790,17 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 
 				// **************************************************
-				// (D)
-				var someData1000 =
+				// **************************************************
+				// **************************************************
+				// (D1)
+				var someData1001 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
-					orderby (Country.Name)
-					select (new CountryViewModel() { NewName = Country.Name })
+					where Country.Name.Contains("ايران")
+					orderby Country.Name
+					select (new CountryViewModel1() { NewName = Country.Name })
 					;
 
-				foreach (CountryViewModel currentCountryViewModel in someData1000)
+				foreach (CountryViewModel1 currentCountryViewModel in someData1001)
 				{
 					currentCountryViewModel.NewName += "!";
 
@@ -842,13 +809,50 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 
 				// **************************************************
+				// (D1)
+				var someData1002 =
+					from Country in DatabaseContext.Countries
+					where Country.Name.Contains("ايران")
+					orderby Country.Name
+					select (new CountryViewModel2() { Name = Country.Name })
+					;
+
+				foreach (CountryViewModel2 currentCountryViewModel in someData1002)
+				{
+					currentCountryViewModel.Name += "!";
+
+					System.Windows.Forms.MessageBox.Show(currentCountryViewModel.Name);
+				}
+				// **************************************************
+
+				// **************************************************
+				// (D3)
+				// Note: Wrong Usage!
+				//var someData1003 =
+				//	from Country in DatabaseContext.Countries
+				//	where Country.Name.Contains("ايران")
+				//	orderby Country.Name
+				//	select (new CountryViewModel2() { Country.Name })
+				//	;
+
+				//foreach (CountryViewModel2 currentCountryViewModel in someData1003)
+				//{
+				//	currentCountryViewModel.Name += "!";
+
+				//	System.Windows.Forms.MessageBox.Show(currentCountryViewModel.Name);
+				//}
+				// **************************************************
+				// **************************************************
+				// **************************************************
+
+				// **************************************************
 				// (E)
 				// Note: متاسفانه کار نمی کند
 				var someData1100 =
 					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains("ايران"))
-					orderby (Country.Name)
-					select (new Models.Country() { Name = Country.Name })
+					where Country.Name.Contains("ايران")
+					orderby Country.Name
+					select new Models.Country() { Name = Country.Name }
 					;
 
 				foreach (Models.Country currentCountry in someData1100)
@@ -1220,13 +1224,22 @@ namespace LEARNING_EF_CODE_FIRST
 			}
 		}
 
-		public class CountryViewModel : object
+		public class CountryViewModel1 : object
 		{
-			public CountryViewModel() : base()
+			public CountryViewModel1() : base()
 			{
 			}
 
 			public string NewName { get; set; }
+		}
+
+		public class CountryViewModel2 : object
+		{
+			public CountryViewModel2() : base()
+			{
+			}
+
+			public string Name { get; set; }
 		}
 
 		private void btnGettingSqlBeforeRunning_Click(object sender, System.EventArgs e)
