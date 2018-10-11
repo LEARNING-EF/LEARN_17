@@ -920,11 +920,30 @@ namespace LEARNING_EF_CODE_FIRST
 
 				// **************************************************
 				// It is similar to (D)
-				var someData1700 =
+				var someData17001 =
 					DatabaseContext.Countries
-					.Select(current => new CountryViewModel() { NewName = current.Name })
+					.Select(current => new CountryViewModel1() { NewName = current.Name })
 					.ToList()
 					;
+				// **************************************************
+
+				// **************************************************
+				// It is similar to (D)
+				var someData17002 =
+					DatabaseContext.Countries
+					.Select(current => new CountryViewModel2() { Name = current.Name })
+					.ToList()
+					;
+				// **************************************************
+
+				// **************************************************
+				// Note: Wrong Usage!
+				// It is similar to (D)
+				//var someData17003 =
+				//	DatabaseContext.Countries
+				//	.Select(current => new CountryViewModel2() { current.Name })
+				//	.ToList()
+				//	;
 				// **************************************************
 
 				// **************************************************
@@ -948,6 +967,8 @@ namespace LEARNING_EF_CODE_FIRST
 					})
 					.ToList()
 					;
+
+				// "SELECT Name FROM Countries"
 				// **************************************************
 
 				// **************************************************
