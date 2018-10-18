@@ -983,6 +983,8 @@ namespace LEARNING_EF_CODE_FIRST
 					})
 					.ToList()
 					;
+
+				// "SELECT Id, Name FROM Countries"
 				// **************************************************
 
 				// **************************************************
@@ -1263,13 +1265,13 @@ namespace LEARNING_EF_CODE_FIRST
 			public string Name { get; set; }
 		}
 
-		private void btnGettingSqlBeforeRunning_Click(object sender, System.EventArgs e)
+		private void GettingSqlBeforeRunning_Click(object sender, System.EventArgs e)
 		{
-			Models.DatabaseContext DatabaseContext = null;
+			Models.DatabaseContext databaseContext = null;
 
 			try
 			{
-				DatabaseContext =
+				databaseContext =
 					new Models.DatabaseContext();
 
 				//var varSomeData =
@@ -1286,63 +1288,64 @@ namespace LEARNING_EF_CODE_FIRST
 				//	select (new PartialCountry() { Name = Country.Name })
 				//	;
 
-				string strCountryName = countryNameTextBox.Text;
+				string countryName = countryNameTextBox.Text;
 
-				var varSomeData =
-					from Country in DatabaseContext.Countries
-					where (Country.Name.Contains(strCountryName))
-					orderby (Country.Name)
-					select (new CountryViewModel() { NewName = Country.Name })
+				var someData =
+					from Country in databaseContext.Countries
+					where Country.Name.Contains(countryName)
+					orderby Country.Name
+					select (new CountryViewModel1() { NewName = Country.Name })
 					;
 
-				string strQuery = varSomeData.ToString();
+				string query = someData.ToString();
 
-				foreach (CountryViewModel oPartialCountry in varSomeData)
+				foreach (CountryViewModel1 partialCountry in someData)
 				{
-					string strName = oPartialCountry.NewName;
+					string name =
+						partialCountry.NewName;
 				}
 
-				var varData =
-					DatabaseContext.Countries
+				var data =
+					databaseContext.Countries
 					.Where(current => 1 == 1)
 					;
 
-				//var varData =
+				//var data =
 				//	DatabaseContext.Countries
 				//	.AsQueryable()
 				//	;
 
-				//var varData =
+				//var data =
 				//	DatabaseContext.Countries
 				//	.Select(current => new { current.Name })
 				//	;
 
-				//var varData =
+				//var data =
 				//	DatabaseContext.Countries
 				//	.Select(current => new PartialCountry() { Name = current.Name })
 				//	;
 
 				// بررسی شود
-				//var varData =
+				//var data =
 				//	DatabaseContext.Countries
 				//	.Select(current => current.Name)
 				//	;
 
-				varData =
-					varData
+				data =
+					data
 					.Where(current => current.Name.Contains("ايران"))
 					;
 
-				varData =
-					varData
+				data =
+					data
 					.OrderBy(current => current.Name)
 					;
 
-				strQuery =
-					varData.ToString();
+				query =
+					data.ToString();
 
 				var varResult =
-					varData.ToList();
+					data.ToList();
 			}
 			catch (System.Exception ex)
 			{
@@ -1350,10 +1353,10 @@ namespace LEARNING_EF_CODE_FIRST
 			}
 			finally
 			{
-				if (DatabaseContext != null)
+				if (databaseContext != null)
 				{
-					DatabaseContext.Dispose();
-					DatabaseContext = null;
+					databaseContext.Dispose();
+					databaseContext = null;
 				}
 			}
 		}
@@ -1368,27 +1371,27 @@ namespace LEARNING_EF_CODE_FIRST
 					new Models.DatabaseContext();
 
 				// Solution (1)
-				//var varData =
+				//var data =
 				//	DatabaseContext.Countries
 				//	.AsQueryable()
 				//	;
 
-				//varData =
-				//	varData
+				//data =
+				//	data
 				//	.Where(current => current.Name == "Some Name")
 				//	;
 
-				//varData =
-				//	varData
+				//data =
+				//	data
 				//	.Where(current => current.Population >= 100)
 				//	;
 
-				//varData =
-				//	varData
+				//data =
+				//	data
 				//	.OrderBy(current => current.Name)
 				//	;
 
-				//string strQuery = varData.ToString();
+				//string strQuery = data.ToString();
 
 				//SELECT 
 				//[Extent1].[Id] AS [Id], 
@@ -1401,27 +1404,27 @@ namespace LEARNING_EF_CODE_FIRST
 				// /Solution (1)
 
 				// Solution (2)
-				//var varData =
+				//var data =
 				//	DatabaseContext.Countries
 				//	.AsQueryable()
 				//	;
 
-				//varData =
-				//	varData
+				//data =
+				//	data
 				//	.Where(current => current.Name == "Some Name")
 				//	;
 
-				//varData =
-				//	varData
+				//data =
+				//	data
 				//	.OrderBy(current => current.Name)
 				//	;
 
-				//varData =
-				//	varData
+				//data =
+				//	data
 				//	.Where(current => current.Population >= 100)
 				//	;
 
-				//string strQuery = varData.ToString();
+				//string strQuery = data.ToString();
 
 				//SELECT 
 				//[Extent1].[Id] AS [Id], 
@@ -1434,25 +1437,25 @@ namespace LEARNING_EF_CODE_FIRST
 				// /Solution (2)
 
 				// Solution (3)
-				//var varData =
+				//var data =
 				//	DatabaseContext.Countries
 				//	.AsQueryable()
 				//	;
 
-				//varData = varData
+				//data = data
 				//	.Where(current => current.Name == "Some Name")
 				//	;
 
-				//varData = varData
+				//data = data
 				//	.OrderBy(current => current.Name)
 				//	.AsQueryable()
 				//	;
 
-				//varData = varData
+				//data = data
 				//	.Where(current => current.Population >= 100)
 				//	;
 
-				//string strQuery = varData.ToString();
+				//string strQuery = data.ToString();
 
 				//SELECT 
 				//[Extent1].[Id] AS [Id], 
@@ -1465,34 +1468,34 @@ namespace LEARNING_EF_CODE_FIRST
 				// /Solution (3)
 
 				// Solution (4)
-				var varData =
+				var data =
 					DatabaseContext.Countries
 					.AsQueryable()
 					;
 
-				varData = varData
+				data = data
 					.Where(current => current.Name.StartsWith("A"))
 					;
 
-				varData = varData
+				data = data
 					.OrderBy(current => current.Name)
 					.AsQueryable()
 					;
 
-				varData = varData
+				data = data
 					.Where(current => current.Name.EndsWith("Z"))
 					;
 
-				varData = varData
+				data = data
 					.OrderBy(current => current.Population)
 					.AsQueryable()
 					;
 
-				varData = varData
+				data = data
 					.Where(current => current.Population >= 100)
 					;
 
-				string strQuery = varData.ToString();
+				string strQuery = data.ToString();
 
 				// /Solution (4)
 			}

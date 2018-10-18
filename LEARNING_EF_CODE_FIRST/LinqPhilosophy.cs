@@ -71,10 +71,5 @@ namespace LEARNING_EF_CODE_FIRST
 				.ToList()
 				;
 		}
-
-		public static void WorkingOnXml()
-		{
-			// XmlDocument, XmlReader,...
-		}
 	}
 }
