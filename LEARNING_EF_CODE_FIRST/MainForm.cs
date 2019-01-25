@@ -81,34 +81,40 @@ namespace LEARNING_EF_CODE_FIRST
 
 				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => current.Name == "ايران")
+					.Where(current => current.Name == "Iran")
+					.Load();
+
+				// "SELECT * FROM Countries WHERE Name = 'Iran'"
+				// **************************************************
+
+				// **************************************************
+				DatabaseContext.Countries
+					.Where(current => string.Compare(current.Name, "Iran", true) == 0)
 					.Load();
 				// **************************************************
 
 				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => string.Compare(current.Name, "ايران", true) == 0)
+					.Where(current => current.Name.StartsWith("I"))
 					.Load();
+
+				// "SELECT * FROM Countries WHERE Name LIKE = 'I%'"
 				// **************************************************
 
 				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => current.Name.StartsWith("ا"))
+					.Where(current => current.Name.EndsWith("N"))
 					.Load();
 
-				// "SELECT * FROM Countries WHERE Name LIKE = 'ا٪'"
-				// **************************************************
-
-				// **************************************************
-				DatabaseContext.Countries
-					.Where(current => current.Name.EndsWith("ن"))
-					.Load();
+				// "SELECT * FROM Countries WHERE Name LIKE = '%N'"
 				// **************************************************
 
 				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => current.Name.Contains("را"))
+					.Where(current => current.Name.Contains("R"))
 					.Load();
+
+				// "SELECT * FROM Countries WHERE Name LIKE = '%R%'"
 				// **************************************************
 
 				// **************************************************
@@ -143,12 +149,17 @@ namespace LEARNING_EF_CODE_FIRST
 				DatabaseContext.Countries
 					.OrderBy(current => current.Code)
 					.Load();
+
+				// "SELECT * FROM Countries ORDER BY Code"
+				// "SELECT * FROM Countries ORDER BY Code ASC"
 				// **************************************************
 
 				// **************************************************
 				DatabaseContext.Countries
 					.OrderByDescending(current => current.Code)
 					.Load();
+
+				// "SELECT * FROM Countries ORDER BY Code DESC"
 				// **************************************************
 
 				// **************************************************
@@ -168,10 +179,10 @@ namespace LEARNING_EF_CODE_FIRST
 
 				// **************************************************
 				// Note: Wrong Usage!
-				DatabaseContext.Countries
-					.OrderBy(current => current.Code)
-					.OrderBy(current => current.Name)
-					.Load();
+				//DatabaseContext.Countries
+				//	.OrderBy(current => current.Code)
+				//	.OrderBy(current => current.Name)
+				//	.Load();
 				// **************************************************
 
 				// **************************************************
@@ -280,6 +291,10 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 
 				// **************************************************
+				DatabaseContext.Countries
+					.Where(current => current.Code >= 10)
+					.Load();
+
 				// اگر بخواهيم به ازای هر کشوری، استان‏های مربوط به آنرا، در همان بار اول، بارگذاری کنيم
 				DatabaseContext.Countries
 					.Include("States")
@@ -346,6 +361,18 @@ namespace LEARNING_EF_CODE_FIRST
 				//	.Load();
 				// **************************************************
 
+				string countryName = string.Empty;
+
+				// **************************************************
+				DatabaseContext.Cities
+					.Include("State")
+					.Where(current => current.Code >= 10)
+					.Load();
+
+				countryName =
+					DatabaseContext.Cities.Local[0].State.Country.Name;
+				// **************************************************
+
 				// **************************************************
 				DatabaseContext.Cities
 					.Include("State")
@@ -353,8 +380,16 @@ namespace LEARNING_EF_CODE_FIRST
 					.Where(current => current.Code >= 10)
 					.Load();
 
-				string strCountryName =
+				countryName =
 					DatabaseContext.Cities.Local[0].State.Country.Name;
+				// **************************************************
+
+				// **************************************************
+				// Note: Strongly Typed
+				DatabaseContext.Cities
+					.Include(current => current.State)
+					.Where(current => current.Code >= 10)
+					.Load();
 				// **************************************************
 
 				// **************************************************
@@ -368,11 +403,12 @@ namespace LEARNING_EF_CODE_FIRST
 
 				// **************************************************
 				// صورت مساله
-				// من تمام کشورهايی را می خواهم که در لااقل نام يکی از استان های آن حرف {بی} وجود داشته باشد
+				// من تمام کشورهايی را می خواهم که لااقل در نام يکی از استان های آن حرف {بی} وجود داشته باشد
 				// لااقل = Any
 
 
 
+				// (1)
 				DatabaseContext.Countries
 					// دقت کنيد که صرف شرط ذيل، نيازی به دستور
 					// Include
@@ -381,6 +417,7 @@ namespace LEARNING_EF_CODE_FIRST
 					.Where(current => current.States.Any(state => state.Name.Contains("B")))
 					.Load();
 
+				// (2)
 				// Note: Wrong Answer
 				//DatabaseContext.States
 				//	.Where(current => current.Name.Contains("B"))
@@ -427,22 +464,22 @@ namespace LEARNING_EF_CODE_FIRST
 				// Country -> State -> City -> Region -> Hotel
 
 				// **************************************************
-				//var varHotels =
+				//var hotels =
 				//	DatabaseContext.Hotels
 				//	.Where(current => current.Region.City.State.Country.Id == viewModel.CountryId)
 				//	.ToList();
 
-				//var varHotels =
+				//var hotels =
 				//	DatabaseContext.Hotels
 				//	.Where(current => current.Region.City.State.Id == viewModel.StateId)
 				//	.ToList();
 
-				//var varHotels =
+				//var hotels =
 				//	DatabaseContext.Hotels
 				//	.Where(current => current.Region.City.Id == viewModel.CityId)
 				//	.ToList();
 
-				//var varHotels =
+				//var hotels =
 				//	DatabaseContext.Hotels
 				//	.Where(current => current.Region.Id == viewModel.RegionId)
 				//	.ToList();
