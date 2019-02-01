@@ -697,20 +697,24 @@ namespace LEARNING_EF_CODE_FIRST
 					from Country in DatabaseContext.Countries
 					select Country
 					;
+
+				// SELECT * FROM Countries
 				// **************************************************
 
 				// **************************************************
+				// ها Country آرایه ای از
 				var someData0300 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					select Country
 					;
 				// **************************************************
 
 				// **************************************************
+				// ها Country آرایه ای از
 				var someData0400 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
 					select Country
 					;
@@ -726,7 +730,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// (A)
 				var someData0500 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
 					select Country.Name
 					;
@@ -754,9 +758,9 @@ namespace LEARNING_EF_CODE_FIRST
 				// (B)
 				var someData0600 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
-					select new { Country.Name }
+					select new { Name = Country.Name }
 					;
 
 				// Note: Wrong Usage!
@@ -774,9 +778,9 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 				var someData0700 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
-					select new { Name = Country.Name }
+					select new { Country.Name }
 					;
 
 				foreach (var currentPartialCountry in someData0700)
@@ -789,7 +793,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// (C)
 				var someData0800 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
 					select new { Baghali = Country.Name }
 					;
@@ -815,7 +819,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 				var someData0900 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
 					select new { Size = Country.Population, Country.Name }
 					;
@@ -832,7 +836,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// (D1)
 				var someData1001 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
 					select (new CountryViewModel1() { NewName = Country.Name })
 					;
@@ -849,7 +853,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// (D1)
 				var someData1002 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
 					select (new CountryViewModel2() { Name = Country.Name })
 					;
@@ -867,7 +871,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// Note: Wrong Usage!
 				//var someData1003 =
 				//	from Country in DatabaseContext.Countries
-				//	where Country.Name.Contains("ايران")
+				//	where Country.Name.Contains("Iran")
 				//	orderby Country.Name
 				//	select (new CountryViewModel2() { Country.Name })
 				//	;
@@ -887,7 +891,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// Note: متاسفانه کار نمی کند
 				var someData1100 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("ايران")
+					where Country.Name.Contains("Iran")
 					orderby Country.Name
 					select new Models.Country() { Name = Country.Name }
 					;
@@ -926,7 +930,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// It is similar to (B)
 				var someData1400 =
 					DatabaseContext.Countries
-					.Select(current => new { current.Name })
+					.Select(current => new { Name = current.Name })
 					.ToList()
 					;
 
@@ -937,7 +941,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// It is similar to (B)
 				var someData1500 =
 					DatabaseContext.Countries
-					.Select(current => new { Name = current.Name })
+					.Select(current => new { current.Name })
 					.ToList()
 					;
 
@@ -1064,6 +1068,7 @@ namespace LEARNING_EF_CODE_FIRST
 					{
 						current.Id,
 						current.Name,
+						StateCount = current.States.Count,
 						CityCount = current.States.Sum(state => state.Cities.Count),
 					})
 					.ToList()
@@ -1075,6 +1080,7 @@ namespace LEARNING_EF_CODE_FIRST
 					{
 						current.Id,
 						current.Name,
+						StateCount = current.States.Count,
 						CityCount = current.States.Select(state => state.Cities.Count).Sum(),
 					})
 					.ToList()
@@ -1086,6 +1092,8 @@ namespace LEARNING_EF_CODE_FIRST
 					{
 						current.Id,
 						current.Name,
+
+						StateCount = current.States.Count,
 
 						CityCount = current.States.Count == 0 ? 0 :
 							current.States.Select(state => new { XCount = state.Cities.Count }).Sum(x => x.XCount)
@@ -1106,6 +1114,8 @@ namespace LEARNING_EF_CODE_FIRST
 					{
 						current.Id,
 						current.Name,
+
+						StateCount = current.States.Count,
 
 						CityCount = current.States.Select(state => state.Cities.Count).DefaultIfEmpty(0).Sum(),
 					})
@@ -1151,13 +1161,13 @@ namespace LEARNING_EF_CODE_FIRST
 
 						Count = current.Count(),
 					})
-					.Where(current => current.Population >= 120000000)
+					.Where(ao => ao.Population >= 120000000)
 					.ToList()
 					;
 
 				var someData3000 =
 					DatabaseContext.Countries
-					.Where(current => current.Name.Contains('ا'))
+					.Where(current => current.Name.Contains('I'))
 					.GroupBy(current => current.Population)
 					.Select(current => new
 					{
@@ -1178,7 +1188,7 @@ namespace LEARNING_EF_CODE_FIRST
 
 				//		Count = current.Count(),
 				//	})
-				//	.Where(current => current.Name.Contains('ا'))
+				//	.Where(ao => ao.Name.Contains('ا'))
 				//	.ToList()
 				//	;
 
@@ -1191,13 +1201,13 @@ namespace LEARNING_EF_CODE_FIRST
 
 						Count = current.Count(),
 					})
-					.Where(current => current.Count >= 30)
+					.Where(ao => ao.Count >= 30)
 					.ToList()
 					;
 
 				var someData3300 =
 					DatabaseContext.Countries
-					.Where(current => current.Name.Contains('ا'))
+					.Where(current => current.Name.Contains('I'))
 					.GroupBy(current => current.Population)
 					.Select(current => new
 					{
@@ -1205,30 +1215,30 @@ namespace LEARNING_EF_CODE_FIRST
 
 						Count = current.Count(),
 					})
-					.Where(current => current.Count >= 30)
+					.Where(ao => ao.Count >= 30)
 					.ToList()
 					;
 
-				// باید دستور ذیل بررسی شود
-				//var someData3400 =
-				//	DatabaseContext.Countries
-				//	.GroupBy(current => current.Population)
-				//	.Select(current => new
-				//	{
-				//		Population = current.Key,
-
-				//		Count = current.Distinct().Count(),
-				//	})
-				//	.ToList()
-				//	;
-
-				var someData3500 =
+				var someData3400 =
 					DatabaseContext.Countries
 					.GroupBy(current => new { current.Population, current.HeadlthyRate })
 					.Select(current => new
 					{
 						Population = current.Key.Population,
 						HeadlthyRate = current.Key.HeadlthyRate,
+
+						Count = current.Count(),
+					})
+					.ToList()
+					;
+
+				var someData3500 =
+					DatabaseContext.Countries
+					.GroupBy(current => new { current.Population, current.HeadlthyRate })
+					.Select(current => new
+					{
+						current.Key.Population,
+						current.Key.HeadlthyRate,
 
 						Count = current.Count(),
 					})
@@ -1251,29 +1261,6 @@ namespace LEARNING_EF_CODE_FIRST
 					})
 					.ToList()
 					;
-
-				// بررسی شود
-				//var someData3700 =
-				//	DatabaseContext.Countries
-				//	.GroupBy(current => current.Population)
-				//	.Select(current => new
-				//	{
-				//		Population = current.Key,
-
-				//		Count = current.Count(),
-
-				//		Max = current.Max(x => new { x.HeadlthyRate, x.Name }),
-				//		Min = current.Min(x => x.HeadlthyRate),
-				//		Sum = current.Sum(x => x.HeadlthyRate),
-				//		Average = current.Average(x => x.HeadlthyRate),
-				//	})
-				//	.ToList()
-				//	;
-
-				//foreach (var item in someData3700)
-				//{
-				//	item.Max.
-				//}
 			}
 			catch (System.Exception ex)
 			{
@@ -1313,7 +1300,7 @@ namespace LEARNING_EF_CODE_FIRST
 
 				//var varSomeData =
 				//	from Country in DatabaseContext.Countries
-				//	where (Country.Name.Contains("ايران"))
+				//	where (Country.Name.Contains("Iran"))
 				//	orderby (Country.Name)
 				//	select (new PartialCountry() { Name = Country.Name })
 				//	;
@@ -1370,7 +1357,7 @@ namespace LEARNING_EF_CODE_FIRST
 
 				data =
 					data
-					.Where(current => current.Name.Contains("ايران"))
+					.Where(current => current.Name.Contains("Iran"))
 					;
 
 				data =
