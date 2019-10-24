@@ -1,0 +1,19 @@
+﻿First Name 		________
+Last Name 		________
+Father Name 	________
+Country			________
+
+[Search]
+
+string query = "SELECT * FORM Users WHERE 1 = 1";
+
+if(string.IsNullOrWithspace(fristName) == false)
+{
+	query += " AND FirstName = '" + firstName + "'";
+	// query += " AND FrstName = '" + firstName + "'";
+}
+
+if(string.IsNullOrWithspace(lastName) == false)
+{
+	query += " AND LastName = '" + lastName + "'";
+}

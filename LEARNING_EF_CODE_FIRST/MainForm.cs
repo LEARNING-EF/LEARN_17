@@ -98,6 +98,10 @@ namespace LEARNING_EF_CODE_FIRST
 					.Where(current => current.Name.StartsWith("I"))
 					.Load();
 
+				//DatabaseContext.Countries
+				//	.Where(current => current.Name.ToUpper().StartsWith("I"))
+				//	.Load();
+
 				// "SELECT * FROM Countries WHERE Name LIKE = 'I%'"
 				// **************************************************
 
@@ -106,6 +110,10 @@ namespace LEARNING_EF_CODE_FIRST
 					.Where(current => current.Name.EndsWith("N"))
 					.Load();
 
+				//DatabaseContext.Countries
+				//	.Where(current => current.Name.ToUpper().EndsWith("N"))
+				//	.Load();
+
 				// "SELECT * FROM Countries WHERE Name LIKE = '%N'"
 				// **************************************************
 
@@ -113,6 +121,10 @@ namespace LEARNING_EF_CODE_FIRST
 				DatabaseContext.Countries
 					.Where(current => current.Name.Contains("R"))
 					.Load();
+
+				//DatabaseContext.Countries
+				//	.Where(current => current.Name.ToUpper().Contains("R"))
+				//	.Load();
 
 				// "SELECT * FROM Countries WHERE Name LIKE = '%R%'"
 				// **************************************************
@@ -466,22 +478,22 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 				//var hotels =
 				//	DatabaseContext.Hotels
-				//	.Where(current => current.Region.City.State.Country.Id == viewModel.CountryId)
+				//	.Where(current => current.Region.City.State.CountryId == viewModel.CountryId)
 				//	.ToList();
 
 				//var hotels =
 				//	DatabaseContext.Hotels
-				//	.Where(current => current.Region.City.State.Id == viewModel.StateId)
+				//	.Where(current => current.Region.City.StateId == viewModel.StateId)
 				//	.ToList();
 
 				//var hotels =
 				//	DatabaseContext.Hotels
-				//	.Where(current => current.Region.City.Id == viewModel.CityId)
+				//	.Where(current => current.Region.CityId == viewModel.CityId)
 				//	.ToList();
 
 				//var hotels =
 				//	DatabaseContext.Hotels
-				//	.Where(current => current.Region.Id == viewModel.RegionId)
+				//	.Where(current => current.RegionId == viewModel.RegionId)
 				//	.ToList();
 				// **************************************************
 
