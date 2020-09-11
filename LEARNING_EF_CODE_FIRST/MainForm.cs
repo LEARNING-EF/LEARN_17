@@ -104,38 +104,44 @@ namespace LEARNING_EF_CODE_FIRST
 
 				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => current.Name.StartsWith("i"))
+					.Where(current => current.Name.ToUpper() == "Iran".ToUpper())
 					.Load();
+				// **************************************************
 
+				// **************************************************
 				//DatabaseContext.Countries
-				//	.Where(current => current.Name.ToLower().StartsWith("i"))
+				//	.Where(current => current.Name.StartsWith("i"))
 				//	.Load();
 
-				// "SELECT * FROM Countries WHERE Name LIKE = 'i%'"
-				// **************************************************
-
-				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => current.Name.EndsWith("n"))
+					.Where(current => current.Name.ToLower().StartsWith("i".ToLower()))
 					.Load();
 
+				// "SELECT * FROM Countries WHERE Name LIKE 'i%'"
+				// **************************************************
+
+				// **************************************************
 				//DatabaseContext.Countries
-				//	.Where(current => current.Name.ToLower().EndsWith("n"))
+				//	.Where(current => current.Name.EndsWith("n"))
 				//	.Load();
 
-				// "SELECT * FROM Countries WHERE Name LIKE = '%n'"
-				// **************************************************
-
-				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => current.Name.Contains("r"))
+					.Where(current => current.Name.ToLower().EndsWith("n".ToLower()))
 					.Load();
 
+				// "SELECT * FROM Countries WHERE Name LIKE '%n'"
+				// **************************************************
+
+				// **************************************************
 				//DatabaseContext.Countries
-				//	.Where(current => current.Name.ToLower().Contains("r"))
+				//	.Where(current => current.Name.Contains("r"))
 				//	.Load();
 
-				// "SELECT * FROM Countries WHERE Name LIKE = '%r%'"
+				DatabaseContext.Countries
+					.Where(current => current.Name.ToLower().Contains("r".ToLower()))
+					.Load();
+
+				// "SELECT * FROM Countries WHERE Name LIKE '%r%'"
 				// **************************************************
 
 				// **************************************************
@@ -147,23 +153,25 @@ namespace LEARNING_EF_CODE_FIRST
 					text.Replace(" ", "%"); // "علی%علوی"
 
 				DatabaseContext.Countries
-					.Where(current => current.Name.Contains(text))
+					.Where(current => current.Name.ToLower().Contains(text.ToLower()))
 					.Load();
 
 				// string text = "علی علوی رضايی";
 				// text = text.Replace(" ", "%");
+
+				// EF -> SQL Injection Free
 				// **************************************************
 
 				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => current.Name.Contains("علی"))
-					.Where(current => current.Name.Contains("علوی"))
+					.Where(current => current.Name.ToLower().Contains("علی".ToLower()))
+					.Where(current => current.Name.ToLower().Contains("علوی".ToLower()))
 					.Load();
 				// **************************************************
 
 				// **************************************************
 				DatabaseContext.Countries
-					.Where(current => current.Name.Contains("علی") || current.Name.Contains("علوی"))
+					.Where(current => current.Name.ToLower().Contains("علی".ToLower()) || current.Name.ToLower().Contains("علوی".ToLower()))
 					.Load();
 				// **************************************************
 
@@ -323,6 +331,7 @@ namespace LEARNING_EF_CODE_FIRST
 					.Where(current => current.Code >= 10)
 					.Load();
 
+				// در این حالت امکان بی‌دقتی وجود دارد
 				//DatabaseContext.Countries
 				//	.Include("Status")
 				//	.Where(current => current.Code >= 10)
@@ -342,6 +351,7 @@ namespace LEARNING_EF_CODE_FIRST
 					.Where(current => current.Code >= 10)
 					.Load();
 
+				// در این حالت امکان بی‌دقتی وجود ندارد
 				//DatabaseContext.Countries
 				//	.Include(current => current.Status)
 				//	.Where(current => current.Code >= 10)
@@ -446,13 +456,13 @@ namespace LEARNING_EF_CODE_FIRST
 					// Include
 					// نيست
 					//.Include(current => current.States)
-					.Where(current => current.States.Any(state => state.Name.Contains("B")))
+					.Where(current => current.States.Any(state => state.Name.ToLower().Contains("B".ToLower())))
 					.Load();
 
 				// (2)
 				// Note: Wrong Answer
 				//DatabaseContext.States
-				//	.Where(current => current.Name.Contains("B"))
+				//	.Where(current => current.Name.ToLower().Contains("B".ToLower()))
 				//	.Select(current => current.Country)
 				//	.Load();
 				// **************************************************
@@ -494,6 +504,10 @@ namespace LEARNING_EF_CODE_FIRST
 				// Country -> State -> City -> Region -> Hotel
 
 				// **************************************************
+				//var hotels =
+				//	DatabaseContext.Hotels
+				//	.ToList();
+
 				//var hotels =
 				//	DatabaseContext.Hotels
 				//	.Where(current => current.Region.City.State.CountryId == viewModel.CountryId)
@@ -567,7 +581,7 @@ namespace LEARNING_EF_CODE_FIRST
 				{
 					data =
 						data
-						.Where(current => current.Name.Contains(countryNameTextBox.Text))
+						.Where(current => current.Name.ToLower().Contains(countryNameTextBox.Text.ToLower()))
 						;
 				}
 
