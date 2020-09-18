@@ -25,7 +25,7 @@
 		// **********
 
 		// **********
-		public int HeadlthyRate { get; set; }
+		public int HealthyRate { get; set; }
 		// **********
 
 		// **********

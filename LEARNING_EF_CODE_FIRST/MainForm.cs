@@ -702,8 +702,9 @@ namespace LEARNING_EF_CODE_FIRST
 
 				// Solution (2)
 				// Mr. Farshad Rabiei
-				dataTemp =
-					dataTemp.Where(current => keywords.Contains(current.Name));
+				// دستور ذیل باید چک شود
+				//dataTemp =
+				//	dataTemp.Where(current => keywords.Contains(current.Name));
 				// /Solution (2)
 
 				dataTemp =
@@ -749,7 +750,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// ها Country آرایه ای از
 				var someData0300 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("Iran")
+					where Country.Name.ToLower().Contains("Iran".ToLower())
 					select Country
 					;
 				// **************************************************
@@ -758,7 +759,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// ها Country آرایه ای از
 				var someData0400 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("Iran")
+					where Country.Name.ToLower().Contains("Iran".ToLower())
 					orderby Country.Name
 					select Country
 					;
@@ -774,7 +775,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// (A)
 				var someData0500 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("Iran")
+					where Country.Name.ToLower().Contains("Iran".ToLower())
 					orderby Country.Name
 					select Country.Name
 					;
@@ -802,7 +803,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// (B)
 				var someData0600 =
 					from Country in DatabaseContext.Countries
-					where Country.Name.Contains("Iran")
+					where Country.Name.ToLower().Contains("Iran".ToLower())
 					orderby Country.Name
 					select new { Name = Country.Name }
 					;
@@ -1265,11 +1266,11 @@ namespace LEARNING_EF_CODE_FIRST
 
 				var someData3400 =
 					DatabaseContext.Countries
-					.GroupBy(current => new { current.Population, current.HeadlthyRate })
+					.GroupBy(current => new { current.Population, current.HealthyRate })
 					.Select(current => new
 					{
 						Population = current.Key.Population,
-						HeadlthyRate = current.Key.HeadlthyRate,
+						HealthyRate = current.Key.HealthyRate,
 
 						Count = current.Count(),
 					})
@@ -1278,11 +1279,11 @@ namespace LEARNING_EF_CODE_FIRST
 
 				var someData3500 =
 					DatabaseContext.Countries
-					.GroupBy(current => new { current.Population, current.HeadlthyRate })
+					.GroupBy(current => new { current.Population, current.HealthyRate })
 					.Select(current => new
 					{
 						current.Key.Population,
-						current.Key.HeadlthyRate,
+						current.Key.HealthyRate,
 
 						Count = current.Count(),
 					})
@@ -1298,10 +1299,10 @@ namespace LEARNING_EF_CODE_FIRST
 
 						Count = current.Count(),
 
-						Max = current.Max(x => x.HeadlthyRate),
-						Min = current.Min(x => x.HeadlthyRate),
-						Sum = current.Sum(x => x.HeadlthyRate),
-						Average = current.Average(x => x.HeadlthyRate),
+						Max = current.Max(x => x.HealthyRate),
+						Min = current.Min(x => x.HealthyRate),
+						Sum = current.Sum(x => x.HealthyRate),
+						Average = current.Average(x => x.HealthyRate),
 					})
 					.ToList()
 					;
